@@ -55,6 +55,27 @@ const putCategory = async (
   if (headers.affectedRows === 0) {
     throw new CustomError('Category not updated', 400);
   }
+  return {message: 'Category updated'};
 };
 
-export {getAllCategories, getCategoryById, postCategory, putCategory};
+const deleteCategory = async (id: number) => {
+  const sql = promisePool.format(
+    'DELETE FROM categories WHERE category_id = ?;',
+    [id]
+  );
+  const [headers] = await promisePool.execute<ResultSetHeader>(sql);
+
+  if (headers.affectedRows === 0) {
+    throw new CustomError('Category not deleted', 400);
+  }
+
+  return {message: 'Category deleted'};
+};
+
+export {
+  getAllCategories,
+  getCategoryById,
+  postCategory,
+  putCategory,
+  deleteCategory,
+};
