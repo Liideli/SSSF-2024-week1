@@ -7,6 +7,7 @@ import {
   postSpecies,
   putSpecies,
 } from '../models/speciesModel';
+import {MessageResponse} from '../../types/MessageTypes';
 
 const speciesListGet = async (
   req: Request,
@@ -20,7 +21,6 @@ const speciesListGet = async (
     next(error);
   }
 };
-
 const speciesGet = async (
   req: Request<{id: string}, {}, {}>,
   res: Response<Species>,
@@ -37,7 +37,7 @@ const speciesGet = async (
 
 const speciesPost = async (
   req: Request<{}, {}, Omit<Species, 'species_id'>>,
-  res: Response,
+  res: Response<MessageResponse>,
   next: NextFunction
 ) => {
   try {
@@ -49,12 +49,11 @@ const speciesPost = async (
 };
 
 const speciesPut = async (
-  req: Request<{id: string}, {}, Partial<Species>>,
-  res: Response,
+  req: Request<{id: string}, {}, Omit<Species, 'species_id'>>,
+  res: Response<MessageResponse>,
   next: NextFunction
 ) => {
   try {
-    const id = Number(req.params.id);
     const result = await putSpecies(Number(req.params.id), req.body);
     res.json(result);
   } catch (error) {
@@ -63,13 +62,12 @@ const speciesPut = async (
 };
 
 const speciesDelete = async (
-  req: Request<{id: string}>,
-  res: Response,
+  req: Request<{id: string}, {}, {}>,
+  res: Response<MessageResponse>,
   next: NextFunction
 ) => {
   try {
-    const id = Number(req.params.id);
-    const result = await deleteSpecies(id);
+    const result = await deleteSpecies(Number(req.params.id));
     res.json(result);
   } catch (error) {
     next(error);

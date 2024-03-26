@@ -1,9 +1,3 @@
-type Normalized = {
-  fromencoded: boolean;
-  from: string;
-  to: string;
-};
-
 type Thumbnail = {
   source: string;
   width: number;
@@ -18,14 +12,20 @@ type Page = {
   pageimage: string;
 };
 
+type Normalized = {
+  fromencoded: boolean;
+  from: string;
+  to: string;
+};
+
 type Query = {
   normalized: Normalized[];
   pages: Page[];
 };
 
-type RootObject = {
+type ImageFromWikipedia = {
   batchcomplete: boolean;
   query: Query;
 };
 
-export {RootObject, Page, Thumbnail};
+export {ImageFromWikipedia, Page, Thumbnail};
